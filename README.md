@@ -34,8 +34,8 @@ To allow the host running the containers network access, use the following
 settings to create a bridge. Either use sudo or login as root and run these
 commands.
 
-ip link add mac0 link eth0 type macvlan mode bridge
-ip addr add 192.168.0.88/30 mac0
+ip link add mac0 link eth0 type macvlan mode bridge \
+ip addr add 192.168.0.88/30 mac0 \
 ip link set up mac0
 
 ## Docker bridging
