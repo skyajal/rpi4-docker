@@ -1,0 +1,42 @@
+# Compose file for pine64
+version: '3'
+services:
+  # portainer
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    hostname: portainer
+    restart: always
+    networks:
+      - armnet
+    ports:
+      - '9000:9000'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /path/to/portainer/data:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+    command:
+      -H unix:///var/run/docker.sock
+  # adguard
+  adguard:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    hostname: adguardhome
+    restart: unless-stopped
+    networks:
+      macvlan:
+        ipv4_address: 192.168.0.89
+    volumes:
+      - /path/to/adguardhome/work:/opt/adguardhome/work
+      - /path/to/adguardhome/conf:/opt/adguardhome/conf
+    environment:
+      - PUID=1000
+      - PGID=1000
+# pine64 network
+networks:
+  armnet:
+    external: true
+  macvlan:
+    external: true
