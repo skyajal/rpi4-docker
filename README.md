@@ -25,7 +25,7 @@ IP Calculator: http://jodies.de/ipcalc
 Network:   192.168.0.88/30 \
 Broadcast: 192.168.0.91 \
 HostMin:   192.168.0.89 \
-HostMax:   192.168.0.90 \
+HostMax:   192.168.0.90
 
 Even though the range only shows 2 IPs, all of the IPs can be used since the
 containers will use the host subnet. In this example, /24 is used for the host.
