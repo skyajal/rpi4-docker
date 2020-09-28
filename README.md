@@ -1,12 +1,12 @@
-# pine64 docker compose
+# Pine64 docker compose
 This is a list of docker compose entries tested on the pine64 for arm compatibility and development.
 Please note that this is only the notes that have been gathered as part of my testing. Your results may vary.
 
-## docker compose file example
+## Docker compose file example
 This example uses version 3 of the compose file format. Additional settings
 can be found at the following link: https://docs.docker.com/compose/compose-file
 
-## docker macvlan
+## Docker macvlan
 Use the following to create a macvlan for the stack to use. Replace the parent
 device and networking information. Below is an example to use IP addresses from
 a network range not used by dhcp. I opted not to create the network settings
@@ -38,7 +38,7 @@ ip link add mac0 link eth0 type macvlan mode bridge
 ip addr add 192.168.0.88/30 mac0
 ip link set up mac0
 
-## docker bridging
+## Docker bridging
 Use the following to create a bridge for the stack to use. The default bridge
 network in docker does not allow containers to connect each other via container
 names used as dns hostnames. Therefore, it is recommended to first create a user
@@ -56,17 +56,17 @@ docker network create --driver=bridge --subnet=192.168.10.0/24 \
 -o "com.docker.network.bridge.name"="armnet" \
 -o "com.docker.network.driver.mtu"="1500" armnet
 
-## naming the stack
+## Naming the stack
 To name the stack without using the directory name, create .env file in the same
 directory the compose file is located and add the following:
 COMPOSE_PROJECT_NAME=mystack
 Alternatively, use -p "mystack" before up.
 Example: docker-compose -p "mystack" up -d
 
-## Containers
-# Portainer
-# https://portainer.readthedocs.io/en/stable/deployment.html
+## Containers used in the example
+Portainer
+https://portainer.readthedocs.io/en/stable/deployment.html
 
-## Adguard Home
-# https://hub.docker.com/r/adguard/adguardhome
-# https://github.com/AdguardTeam/AdGuardHome
+Adguard Home
+https://hub.docker.com/r/adguard/adguardhome
+https://github.com/AdguardTeam/AdGuardHome
