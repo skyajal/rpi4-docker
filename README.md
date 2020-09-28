@@ -21,6 +21,7 @@ docker network create -d macvlan -o parent=eth0 \
 
 To see a list of IPs that will be available for docker to assign, use this
 IP Calculator: http://jodies.de/ipcalc
+
 Network:   192.168.0.88/30       11000000.10101000.00000000.010110 00 (Class C)
 Broadcast: 192.168.0.91          11000000.10101000.00000000.010110 11
 HostMin:   192.168.0.89          11000000.10101000.00000000.010110 01
