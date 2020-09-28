@@ -1,6 +1,6 @@
 # Pine64 docker compose
 This is a list of docker compose entries tested on the pine64 for arm compatibility and development.
-Please note that this is only the notes that have been gathered as part of my testing. Your results may vary.
+Please note that this is only the information that have been gathered as part of my testing. Your results may vary.
 
 ## Docker compose file example
 This example uses version 3 of the compose file format. Additional settings
