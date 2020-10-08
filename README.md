@@ -39,7 +39,7 @@ ip addr add 192.168.0.88/30 dev mac0 \
 ip link set up mac0
 
 Note: If you are using Netplan, there is a known bug which doesn't support macvlan
-after a reboot. Please see https://gist.github.com/timcharper/d547fbe13bdd859f4836bfb02197e295 for an example workaround.
+after a reboot. Please see https://gist.github.com/timcharper/d547fbe13bdd859f4836bfb02197e295 and https://gist.github.com/jooter/8f95555021d2a4e7cb6241368473ed55 for an example workaround.
 
 ## Docker bridging
 Use the following to create a bridge for the stack to use. The default bridge
