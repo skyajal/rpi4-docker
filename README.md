@@ -17,7 +17,7 @@ Note: The option -o "com.docker.network.macvlan.name"="macvlan" is optional.
 docker network create -d macvlan -o parent=eth0 \
 -o "com.docker.network.macvlan.name"="macvlan" \
 --subnet 192.168.0.0/24 --gateway 192.168.0.1 \
---ip-range 172.16.0.88/30 macvlan
+--ip-range 192.168.0.88/30 macvlan
 
 To see a list of IPs that will be available for docker to assign, use this
 IP Calculator: http://jodies.de/ipcalc
