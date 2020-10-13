@@ -39,7 +39,8 @@ ip addr add 192.168.0.88/30 dev mac0 \
 ip link set up mac0
 
 Note: If you are using Netplan, there is a known bug https://bugs.launchpad.net/netplan/+bug/1664847 which doesn't support macvlan
-after a reboot. Please see https://gist.github.com/timcharper/d547fbe13bdd859f4836bfb02197e295 and https://gist.github.com/jooter/8f95555021d2a4e7cb6241368473ed55 for example workarounds.
+after a reboot. Please see https://gist.github.com/timcharper/d547fbe13bdd859f4836bfb02197e295 and https://gist.github.com/jooter/8f95555021d2a4e7cb6241368473ed55 for example workarounds with networkd. I tried this method but was unable to get it to retain after
+a reboot. Using the Network Manager method mentioned in the bug works. While not ideal, there seems to be no good implementation documented for going the networkd method. Going back to using ifupdown from the Ubuntu archive was not an option either I was willing to explore.
 
 ## Docker bridging
 Use the following to create a bridge for the stack to use. The default bridge
@@ -51,8 +52,8 @@ in the compose file. Change the bridge name to whatever you want along with the
 subnet and gateway IP. Keep armnet the same or replace all instances
 with the name you want to use. See The example below:
 
-docker network create --driver=bridge --subnet=192.168.10.0/24 \
---gateway=192.168.10.1 \
+docker network create --d bridge --subnet 192.168.10.0/24 \
+--gateway 192.168.10.1 \
 -o "com.docker.network.bridge.host_binding_ipv4"="0.0.0.0" \
 -o "com.docker.network.bridge.enable_ip_masquerade"="true" \
 -o "com.docker.network.bridge.enable_icc"="true" \
