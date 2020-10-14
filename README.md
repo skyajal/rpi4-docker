@@ -14,7 +14,7 @@ device and networking information. Below is an example to use IP addresses from
 a network range not used by dhcp. I opted not to create the network settings
 in the compose file. Additional information: https://docs.docker.com/network/macvlan/
 
-[b]Note:[/b] The option -o "com.docker.network.macvlan.name"="macvlan" is optional and not needed.
+**Note:** The option -o "com.docker.network.macvlan.name"="macvlan" is optional and not needed.
 
 docker network create -d macvlan -o parent=eth0 \
 -o "com.docker.network.macvlan.name"="macvlan" \
