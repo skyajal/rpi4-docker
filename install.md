@@ -6,11 +6,11 @@ After Ubuntu has been successfully installed onto your device, allow it to compl
 
 There is some additional things I like to change before installing docker. These are completely optional.
 1. Rename the default ubuntu username
-2. Install argon1 script for argon40 case
+2. Install argon1.sh script for the Argon ONE Pi 4 Raspberry Pi Case
 3. Disable the sdcard status (green) light
 
- Renaming the default ubuntu username
-I prefer to login with my username rather than ubuntu. Why change it though? It's a personal preference to keep my user id and group id the same across all of my devices. Sure, I could just create a new user with my username but where is the fun in that? :smilely:
+## Renaming the default ubuntu username
+I prefer to login with my username rather than ubuntu. Why change it though? It's a personal preference to keep my user id and group id the same across all of my devices.
 
 **Note:** You will need root privileges to make these changes. You can either login directly as root or via ssh if you prefer.
 
@@ -21,3 +21,7 @@ usermod -m -d /home/<username> <username>
 groupmod -n <username> ubuntu
 ```
 Replace \<username\> with your desired username.
+
+## Install argon1.sh script for the Argon ONE Pi 4 Raspberry Pi Case
+The original script provided by Argon40 doesn't have support for Ubuntu. Luckily, [meuter/argon-one-case-ubuntu-20.04](https://github.com/meuter/argon-one-case-ubuntu-20.04) has provided an updated script to do just that.
+Follow his instructions if you would like to use this with your Argon ONE case.
