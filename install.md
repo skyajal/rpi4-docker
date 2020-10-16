@@ -7,7 +7,7 @@ After Ubuntu has been successfully installed onto your device, allow it to compl
 There is some additional things I like to change before installing docker. These are completely optional.
 1. Rename the default ubuntu username
 2. Install argon1.sh script for the Argon ONE Pi 4 Raspberry Pi Case
-3. Disable the sdcard status (green) light
+3. Disable the microsd status (green) light
 
 ## Renaming the default ubuntu username
 I prefer to login with my username rather than ubuntu. Why change it though? It's a personal preference to keep my user id and group id the same across all of my devices.
@@ -25,3 +25,11 @@ Replace \<username\> with your desired username.
 ## Install argon1.sh script for the Argon ONE Pi 4 Raspberry Pi Case
 The original script provided by Argon40 doesn't have support for Ubuntu. Luckily, [meuter/argon-one-case-ubuntu-20.04](https://github.com/meuter/argon-one-case-ubuntu-20.04) has provided an updated script to do just that.
 Follow his instructions if you would like to use this with your Argon ONE case.
+
+## Disable the microsd status \(green\) light
+This is purely cosmetic. Since I am booting from SSD, this light is no longer useful. Edit /boot/firmware/config.txt and add the following under the \[pi4\] tag
+```
+# Disable the Activity LED
+dtparam=act_led_trigger=none
+dtparam=act_led_activelow=off
+```
