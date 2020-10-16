@@ -9,9 +9,10 @@ There is some additional things I like to change before installing docker. These
 2. Install argon1 script for argon40 case
 3. Disable the sdcard status (green) light
 
-###### Renaming the default ubuntu username
+ Renaming the default ubuntu username
 I prefer to login with my username rather than ubuntu. Why change it though? It's a personal preference to keep my user id and group id the same across all of my devices. Sure, I could just create a new user with my username but where is the fun in that? :simple_smile:
-*Note:* You will need root privileges to make these changes. You can either login directly as root or via ssh if you prefer.
+
+**Note:** You will need root privileges to make these changes. You can either login directly as root or via ssh if you prefer.
 
 Run the following commands as root:
 ```
@@ -19,4 +20,4 @@ usermod -l <username> ubuntu
 usermod -m -d /home/<username> <username>
 groupmod -n <username> ubuntu
 ```
-Replace <username> with your desired username.
+Replace \<username\> with your desired username.
