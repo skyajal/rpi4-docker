@@ -10,7 +10,7 @@ There is some additional things I like to change before installing docker. These
 3. Disable the sdcard status (green) light
 
  Renaming the default ubuntu username
-I prefer to login with my username rather than ubuntu. Why change it though? It's a personal preference to keep my user id and group id the same across all of my devices. Sure, I could just create a new user with my username but where is the fun in that? :simple_smile:
+I prefer to login with my username rather than ubuntu. Why change it though? It's a personal preference to keep my user id and group id the same across all of my devices. Sure, I could just create a new user with my username but where is the fun in that? :smilely:
 
 **Note:** You will need root privileges to make these changes. You can either login directly as root or via ssh if you prefer.
 
