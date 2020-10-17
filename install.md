@@ -8,6 +8,7 @@ Here are some options I prefer to change before installing docker. All of the st
 3. Disable the microsd status (green) light
 4. Disable wireless and bluetooth
 5. Install Network Manager for macvlan bridge support
+6. Set the hostname, timezone and NTP servers
 
 ## Renaming the default ubuntu username
 I prefer to login with my username rather than ubuntu. Why change it though? It's a personal preference to keep my user id and group id the same across all of my devices. This can be done with the [cloud-config](https://cloudinit.readthedocs.io/en/latest/topics/examples.html) settings before initial boot. To keep it simple without using with the cloud-config, Here are some basic commands to do this.
@@ -63,6 +64,11 @@ network:
           addresses: [10.10.10.1, 1.1.1.1]
 ```
 
-3. Create a new file named `/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg` with `network: {config: disabled}`
+3. Create a new file named `/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg` and add the following: `network: {config: disabled}`
 4. **Optional:** If you do not want Network Manager changing `/etc/resolv.conf` add `dns=none` to /etc/NetworkManager/NetworkManager.conf under the `[main]` section. You can then disable the systemd-resolved daemon as it is no longer being used. Use the following command as root or using sudo: `systemctl disable systemd-resolved`. You will also need to remove the old symbolic link and create a new `/etc/resolv.conf` file with your nameservers.
 5. Disable networkd as it will no longer be used after rebooting. Use the following command as root or using sudo: `systemctl disable systemd-networkd`
+
+## Set the hostname, timezone and NTP servers
+1. Set the hostname using the following command as root or using sudo: `hostanmectl set-hostname <hostname>`. Replace <hostname> with your desired name.
+2. Set the timezone using the following command as root or using sudo: `timedatectl set-timezone <timezone>`. Replace <timezone> with your desired timezone.
+3. Set the NTP servers to be used by editing `/etc/systemd/timesyncd.conf` file. Uncomment `NTP=` and add your NTP server. Optionally, you can set a fallback NTP server.
