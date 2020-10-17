@@ -27,7 +27,7 @@ The original script provided by Argon40 doesn't have support for Ubuntu. Luckily
 Follow his instructions if you would like to use this with your Argon ONE case.
 
 ## Disable the microsd status \(green\) light
-This is purely cosmetic. Since I am booting from SSD, this light is no longer useful. Edit /boot/firmware/config.txt and add the following under the \[pi4\] tag
+This is purely cosmetic. Since I am booting from SSD, this light is no longer useful. Edit `/boot/firmware/config.txt` and add the following under the `[pi4]` tag
 ```
 # Disable the Activity LED
 dtparam=act_led_trigger=none
@@ -35,7 +35,7 @@ dtparam=act_led_activelow=off
 ```
 
 ## Disable wireless and bluetooth
-We don't need wireless nor bluetooth so let's disable them during boot. Edit /boot/firmware/config.txt and add the following under the \[all\] tag
+We don't need wireless nor bluetooth so let's disable them during boot. Edit `/boot/firmware/config.txt` and add the following under the `[all]` tag
 ```
 dtoverlay=disable-bt
 dtoverlay=disable-wifi
@@ -63,6 +63,8 @@ network:
           addresses: [10.10.10.1, 1.1.1.1]
 ```
 
-Also add /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with network: {config: disabled}
+   - Add /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with `network: {config: disabled}`
 
-**Optional:** If you do not want Network Manager changing /etc/resolv.conf add dns=none to /etc/NetworkManager/NetworkManager.conf under the \[main\] section. This also means you can disable the systemd-resolved daemon as it is no longer being used.
+   - **Optional:** If you do not want Network Manager changing /etc/resolv.conf add `dns=none` to /etc/NetworkManager/NetworkManager.conf under the \[main\] section. You can disable the systemd-resolved daemon as it is no longer being used.
+
+   - Disable networkd as it will no longer be used after rebooting. Use the following command as root or using sudo: `systemctl disable systemd-networkd`
