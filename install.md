@@ -44,7 +44,7 @@ dtoverlay=disable-wifi
 Netplan doesn't support macvlans natively. I tried to setup a macvlan in netplan using networkd but I could not get it to survive a reboot. Going back to ifupdown was also not an option I wanted to try. I use the script example found in the [bug #1664847](https://bugs.launchpad.net/netplan/+bug/1664847) to setup a macvlan bridge so the Raspberry Pi can communicate with containers using macvlan.
 If you don't plan to use macvlans then you can skip this step.
 
-After you have installed the network-manager package, there is some additional steps to do before rebooting.
+After you have installed the `network-manager` package, there is some additional steps to do before rebooting.
 1. Add the script mentioned in the bug above as a workaround to allow macvlan bridging.
 2. Edit /etc/netplan/50-cloud-init.yaml and add the renderer for NetworkManager.
    - If you plan to use dhcp, this is the only change needed.
@@ -63,8 +63,6 @@ network:
           addresses: [10.10.10.1, 1.1.1.1]
 ```
 
-   - Add /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with `network: {config: disabled}`
-
-   - **Optional:** If you do not want Network Manager changing /etc/resolv.conf add `dns=none` to /etc/NetworkManager/NetworkManager.conf under the \[main\] section. You can disable the systemd-resolved daemon as it is no longer being used.
-
-   - Disable networkd as it will no longer be used after rebooting. Use the following command as root or using sudo: `systemctl disable systemd-networkd`
+3. Create a new file named `/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg` with `network: {config: disabled}`
+4. **Optional:** If you do not want Network Manager changing `/etc/resolv.conf` add `dns=none` to /etc/NetworkManager/NetworkManager.conf under the `[main]` section. You can then disable the systemd-resolved daemon as it is no longer being used. Use the following command as root or using sudo: `systemctl disable systemd-resolved`. You will also need to remove the old symbolic link and create a new `/etc/resolv.conf` file with your nameservers.
+5. Disable networkd as it will no longer be used after rebooting. Use the following command as root or using sudo: `systemctl disable systemd-networkd`
