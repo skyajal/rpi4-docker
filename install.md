@@ -113,14 +113,14 @@ Test the version by running the following command: `docker-compose --version`
 Use the following to create a macvlan for the stack to use. Replace the parent
 device and networking information. Below is an example to use IP addresses from
 a network range not used by dhcp. I opted not to create the network settings
-in the compose file. Additional information: https://docs.docker.com/network/macvlan/
-
-**Note:** The option -o "com.docker.network.macvlan.name"="macvlan" is optional and not needed.
-
+in the compose file. Additional information: https://docs.docker.com/network/macvlan
+```
 docker network create -d macvlan -o parent=eth0 \
 -o "com.docker.network.macvlan.name"="macvlan" \
 --subnet 192.168.0.0/24 --gateway 192.168.0.1 \
 --ip-range 192.168.0.88/30 macvlan
+```
+**Note:** The option -o "com.docker.network.macvlan.name"="macvlan" is optional and not needed.
 
 To see a list of IPs that will be available for docker to assign, use this
 IP Calculator: http://jodies.de/ipcalc
@@ -169,3 +169,6 @@ directory the compose file is located and add the following:
 COMPOSE_PROJECT_NAME=mystack
 Alternatively, use -p "mystack" before up.
 Example: docker-compose -p "mystack" up -d
+
+## Docker compose file example
+This example uses version 3.8 of the [compose](https://docs.docker.com/compose/compose-file) file format.
