@@ -67,6 +67,7 @@ if [[ "${IFACE}" == "br0" && "${ACTION}" == "pre-down" ]]; then
 fi
 ```
 Change the IP addresses to match your desired settings.
+
 2. Edit /etc/netplan/50-cloud-init.yaml and add the renderer for NetworkManager.
    - If you plan to use dhcp, this is the only change needed.
    - If you plan to use a static IP then set the desired settings. See the example below.
