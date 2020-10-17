@@ -46,7 +46,27 @@ Netplan doesn't support macvlans natively. I tried to setup a macvlan in netplan
 If you don't plan to use macvlans then you can skip this step.
 
 After you have installed the `network-manager` package, there is some additional steps to do before rebooting.
-1. Add the script mentioned in the bug above as a workaround to allow macvlan bridging.
+1. Add the script mentioned in the bug above as a workaround to allow macvlan bridging. Edit `/etc/NetworkManager/macvlan.sh` and add the following example:
+```
+#!/usr/bin/bash
+
+IFACE=${1}
+ACTION=${2}
+
+if [[ "${IFACE}" == "br0" && "${ACTION}" == "up" ]]; then
+        ip link add link br0 name macvlan0 type macvlan mode bridge
+        ip addr add 172.29.10.224/32 dev macvlan0
+        ip link set macvlan0 up
+        ip route add 172.29.10.224/27 dev macvlan0
+fi
+
+if [[ "${IFACE}" == "br0" && "${ACTION}" == "pre-down" ]]; then
+        ip route del 172.29.10.224/27
+        ip link set macvlan0 down
+        ip link del dev macvlan0
+fi
+```
+Change the IP addresses to match your desired settings.
 2. Edit /etc/netplan/50-cloud-init.yaml and add the renderer for NetworkManager.
    - If you plan to use dhcp, this is the only change needed.
    - If you plan to use a static IP then set the desired settings. See the example below.
