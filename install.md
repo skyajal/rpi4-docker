@@ -11,7 +11,7 @@ Here are some options that are suggested to change before installing docker. All
 6. Set the hostname, timezone and NTP servers
 7. Do a final update check before rebooting
 
-## Renaming the default ubuntu username
+## Rename the default ubuntu username
 I prefer to login with my username rather than ubuntu. Why change it though? It's a personal preference to keep my user id and group id the same across all of my devices. This can be done with the [cloud-config](https://cloudinit.readthedocs.io/en/latest/topics/examples.html) settings before initial boot. To keep it simple without using with the cloud-config, Here are some basic commands to do this.
 
 **Note:** Root privileges are required to make these changes. Login as root on the Raspberry Pi or via ssh. Do not use su while logged into the ubuntu user.
@@ -108,3 +108,64 @@ mv docker-compose-arm64 docker-compose && mv docker-compose /usr/local/bin
 chown root. /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 ```
 Test the version by running the following command: `docker-compose --version`
+
+## Docker macvlan
+Use the following to create a macvlan for the stack to use. Replace the parent
+device and networking information. Below is an example to use IP addresses from
+a network range not used by dhcp. I opted not to create the network settings
+in the compose file. Additional information: https://docs.docker.com/network/macvlan/
+
+**Note:** The option -o "com.docker.network.macvlan.name"="macvlan" is optional and not needed.
+
+docker network create -d macvlan -o parent=eth0 \
+-o "com.docker.network.macvlan.name"="macvlan" \
+--subnet 192.168.0.0/24 --gateway 192.168.0.1 \
+--ip-range 192.168.0.88/30 macvlan
+
+To see a list of IPs that will be available for docker to assign, use this
+IP Calculator: http://jodies.de/ipcalc
+
+Network:   192.168.0.88/30 \
+Broadcast: 192.168.0.91 \
+HostMin:   192.168.0.89 \
+HostMax:   192.168.0.90
+
+Even though the range only shows 2 IPs, all of the IPs can be used since the
+containers will use the host subnet. In this example, /24 is used for the host.
+
+To allow the host running the containers network access, use the following
+settings to create a bridge. Either use sudo or login as root and run these
+commands.
+
+ip link add mac0 link eth0 type macvlan mode bridge \
+ip addr add 192.168.0.88/30 dev mac0 \
+ip link set up mac0
+
+Note: If you are using Netplan, there is a known bug https://bugs.launchpad.net/netplan/+bug/1664847 which doesn't support macvlan
+after a reboot. Please see https://gist.github.com/timcharper/d547fbe13bdd859f4836bfb02197e295 and https://gist.github.com/jooter/8f95555021d2a4e7cb6241368473ed55 for example workarounds with networkd. I tried this method but was unable to get it to retain after
+a reboot. Using the Network Manager method mentioned in the bug works. While not ideal, there seems to be no good implementation documented for going the networkd method. Going back to using ifupdown from the Ubuntu archive was not an option either I was willing to explore.
+
+## Docker bridging
+Use the following to create a bridge for the stack to use. The default bridge
+network in docker does not allow containers to connect each other via container
+names used as dns hostnames. Therefore, it is recommended to first create a user
+defined bridge network and attach the containers to that network. This must also
+be done prior to using docker-compose. I opted not to create the network settings
+in the compose file. Change the bridge name to whatever you want along with the
+subnet and gateway IP. Keep armnet the same or replace all instances
+with the name you want to use. See The example below:
+
+docker network create --d bridge --subnet 192.168.10.0/24 \
+--gateway 192.168.10.1 \
+-o "com.docker.network.bridge.host_binding_ipv4"="0.0.0.0" \
+-o "com.docker.network.bridge.enable_ip_masquerade"="true" \
+-o "com.docker.network.bridge.enable_icc"="true" \
+-o "com.docker.network.bridge.name"="armnet" \
+-o "com.docker.network.driver.mtu"="1500" armnet
+
+## Naming the stack
+To name the stack without using the directory name, create .env file in the same
+directory the compose file is located and add the following:
+COMPOSE_PROJECT_NAME=mystack
+Alternatively, use -p "mystack" before up.
+Example: docker-compose -p "mystack" up -d
