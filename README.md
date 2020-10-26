@@ -65,7 +65,15 @@ if [[ "${IFACE}" == "br0" && "${ACTION}" == "pre-down" ]]; then
         ip link del dev macvlan0
 fi
 ```
-Change the IP addresses to match the desired settings.
+Change the IP addresses to match the desired settings. Set the appropriate ownership/permissions and symlink to the hook locations.
+```
+chown root:root /etc/NetworkManager/macvlan.sh
+chmod 700 /etc/NetworkManager/macvlan.sh
+ln -s /etc/NetworkManager/macvlan.sh /etc/NetworkManager/dispatcher.d/pre-up.d/macvlan.sh
+ln -s /etc/NetworkManager/macvlan.sh /etc/NetworkManager/dispatcher.d/pre-down.d/macvlan.sh
+ln -s /etc/NetworkManager/macvlan.sh /etc/NetworkManager/dispatcher.d/no-wait.d/macvlan.sh
+ln -s /etc/NetworkManager/macvlan.sh /etc/NetworkManager/dispatcher.d/macvlan.sh
+```
 
 2. Edit /etc/netplan/50-cloud-init.yaml and add the renderer for NetworkManager.
    - If you plan to use dhcp, this is the only change needed.
