@@ -1,4 +1,4 @@
-# Raspberry Pi 4 - Docker Setup
+# Raspberry Pi 4 - Docker Setup with Ubuntu 20.04 LTS
 This document describes the steps that were used to create a docker environment on a Raspberry Pi 4 using a SSD without a microsd card.
 In order to boot from a SSD, follow the steps outlined at [krdesigns.com](https://krdesigns.com/articles/Boot-raspbian-ubuntu-20.04-official-from-SSD-without-microsd).
 
