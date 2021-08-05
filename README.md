@@ -3,17 +3,18 @@
 Below is the steps that were used to setup docker on Raspbian OS 64 bit. Detailed information will be added as time permits.
 
 1. Install Raspbian OS 64 bit on the desired storage of your choice. Once this step has been completed, here are a few things to do before moving on to the next step:
-   - Run the commands `apt update` and `apt upgrade` to bring the OS up-to-date.
+   - Run the commands `sudo apt update` and `sudo apt upgrade` to bring the OS up-to-date.
    - Check that the timezone is set correctly by running the `date` command. Run `raspi-config` to set the timezone.
    - Check that your locale is set to your region. Use the command `locale` to view the current settings. Run `raspi-config` to set the locale for your region. Reboot for the changes to take affect.
-2. Configure the network settings.
-   - (Optional) Create a bridged interface. This can be handy if using other services such as qemu along with docker. Create the file `/etc/systemd/network/br0.netdev` using the editor of your choice. The file should contain the following settings:
+2. Configure the network settings. This assumes that the wireless will not be configured or it will be disabled. Creating or editing files will require sudo or root access.
+   - ### **(Optional)** Create a bridged interface. 
+   This can be handy if you plan on using other services such as qemu along with docker. Create the file `/etc/systemd/network/br0.netdev` using the editor of your choice. The file should contain the following settings:
    ```
    [NetDev]
    Name=br0
    Kind=bridge
    ```
-   Next, create another file named `/etc/systemd/network/eth0.network` using the editor of your choice. The file should contain the following settings:
+   Next, create a file named `/etc/systemd/network/eth0.network` using the editor of your choice. The file should contain the following settings:
    ```
    [Match]
    Name=eth0
@@ -21,7 +22,72 @@ Below is the steps that were used to setup docker on Raspbian OS 64 bit. Detaile
    [Network]
    Bridge=br0
    ```
-   - (Optional) Add configuration for networkd to provide macvlan bridge for docker
-   - Edit /etc/dhcpdcp.conf
+   Now enable systemd-networkd when the system starts: `sudo systemctl enable systemd-networkd` This will create and populate the bridge interface during boot.
+   Finally, edit the file `/etc/dhcpcd.conf` using the editor of your choice. Add the following settings to the file:
+   ```
+   # Deny DHCP to the following interfaces
+   denyinterfaces eth0 wlan0
 
-3. Install docker using get-docker.sh script
+   # Configure the bridge
+   interface br0
+   ```
+   **_Tip_:** If DHCP is being used, place both settings at the end of the file. Otherwise put the `denyinterfaces eth0 wlan0` before any `interface` setting. A static ip address can be configured if desired. See the example provided in the file.
+
+   **_Tip_:** It is recommended to disable the wireless interface by adding the following option to `/boot/config.txt` then wlan0 is not needed in the denyinterfaces noted above.
+   ```
+   dtoverlay=disable-wifi
+   ```
+   Once these steps are complete, it is recommended to reboot to test the changes. If DHCP is used, the ip address may of changed. If a static ip is used, check to see if the ip address can be pinged.
+   - ### **(Optional)** Add configuration for systemd-networkd to provide a macvlan for docker. 
+   If the steps above for creating a bridge are used, create a new file named `/etc/systemd/network/br0.network` using the editor of your choice. The file should contain the following settings:
+   ```
+   [Match]
+   Name=br0
+
+   [Network]
+   MACVLAN=mac0
+   ```
+   If a bridge is not being used, create a new file named `/etc/systemd/network/eth0.network` using the editor of your choice. The file should contain the following settings:
+   ```
+   [Match]
+   Name=eth0
+
+   [Network]
+   MACVLAN=mac0
+   ```
+
+   Next, create a new file named `/etc/systemd/network/mac0.netdev` using the editor of your choice. The file should contain the following settings:
+   ```
+   [NetDev]
+   Name=mac0
+   Kind=macvlan
+
+   [MACVLAN]
+   Mode=bridge
+   ```
+   Then create a new file named `/etc/systemd/network/mac0.network` using the editor of your choice. The file should contain the following settings:
+   ```
+   [Match]
+   Name=mac0
+
+   [Network]
+   DHCP=no
+   ipForward=yes
+   LinkLocalAddressing=no
+   Address=<static ip/subnet>
+   Gateway=<gateway ip>
+   DNS=<primary dns ip>
+   DNS=<second dns ip>
+   Domains=<domain>
+   ```
+   **_Tip_:** The above example is for setting a static ip. The ip address should be a part of the range used for the macvlan. See step 4 for additional information.
+   - If the optional steps above are not used, edit `/etc/dhcpdcp.conf` to configure a static ip address if desired. See the example provided in the file. Otherwise, DHCP will be used.
+
+3. Install docker using [installation instructions](https://docs.docker.com/engine/install/debian/) provided for installing the [conveinence script](https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script). At this point docker is now installed. If you do not plan to create macvlans or bridge networks, you can stop here and start using docker. Below are the optional steps to create macvlans and bridge networks for docker.
+
+4. **(Optional)** Add macvlan network to docker by selecting an ip range not being used by DHCP. If a bridge is used, replace eth0 with br0.
+```
+docker network create -d macvlan -o parent=eth0 \
+--subnet 192.168.0.0/24 --gateway 192.168.0.1 \
+--ip-range 192.168.0.88/30 macvlan
+```
