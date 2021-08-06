@@ -98,7 +98,7 @@ interface eth0
 ```
 **_Tip_:** If DHCP is being used, place both settings at the end of the file. Otherwise put the `denyinterfaces mac0` before any `interface` setting. A static ip address can be configured if desired. See the example provided in the file.
 
-## **(Optional)** Create a bridge on the host. 
+## **(Optional) Create a bridge on the host.** 
 This can be handy if you plan on using other services such as qemu along with docker. Create the file `/etc/systemd/network/br0.netdev` using the editor of your choice. The file should contain the following settings.
 ```
 [NetDev]
