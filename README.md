@@ -1,18 +1,18 @@
 # Raspberry Pi 4 - Docker Setup with Raspbian OS 64 bit
 
-This guide contains several options to configure docker on raspbian OS 64 bit. This guide is not complete at this time.
+This guide contains several options to configure docker on raspbian OS 64 bit. This guide is provided as-is. Use at your own risk.
 
 ## **Quick Setup**
 **_Tip_:** Below are some recommendations to do prior to installing docker.
 - Run the commands `sudo apt update` and `sudo apt upgrade` to bring the OS up-to-date.
-- Check that the timezone is set to youur region.  Use the command `date` to view the current settings. Run `sudo raspi-config` to set the timezone for your region.
+- Check that the timezone is set to your region.  Use the command `date` to view the current settings. Run `sudo raspi-config` to set the timezone for your region.
 - Check that the locale is set to your region. Use the command `locale` to view the current settings. Run `sudo raspi-config` to set the locale for your region. Reboot for the changes to take affect.
 - This guide assumes only ethernet will be used. It is recommended to disable the wireless interface if it will not be used by adding the following option to `/boot/config.txt`.
 ```
 dtoverlay=disable-wifi
 ```
 
-The easiest method to setup docker on raspbian OS 64 bit is to use the [conveinence script](https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script). After the installation is complete, add the pi user to the docker group to run docker commands directly. Run the command `sudo usermod -aG docker pi` then log out and log back in for the changes to take affect. If you do not plan to use a [user-defined bridge](https://docs.docker.com/network/bridge/) or a [macvlan](https://docs.docker.com/network/macvlan/), docker is now ready to use.
+The easiest method to setup docker on raspbian OS 64 bit is to use the [convenience script](https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script). After the installation is complete, add the pi user to the docker group to run docker commands directly. Run the command `sudo usermod -aG docker pi` then log out and log back in for the changes to take affect. If you do not plan to use a [user-defined bridge](https://docs.docker.com/network/bridge/) or a [macvlan](https://docs.docker.com/network/macvlan/), docker is now ready to use.
 
 ## **User-defined bridge**
 Use the following to create a [user-defined bridge](https://docs.docker.com/network/bridge/). The default bridge `docker0` in docker does not allow containers to connect each other via container names used as dns hostnames. Therefore, it is recommended to create a user-defined bridge and attach the containers to that bridge. Change the bridge name, subnet and gateway ip to the desired setting. See the example below.
@@ -34,7 +34,7 @@ To disable the default bridge `docker0`, create or edit the file`/etc/docker/dae
 }
 ```
 ## **Macvlan**
-Add a [macvlan](https://docs.docker.com/network/macvlan/) network to docker by selecting an ip range not being used by DHCP or by other hosts. If a host bridge is used, replace eth0 with br0 or with the name of the bridge interface. The subnet 192.168.0.0/24 is used to match the current network that is being used. The default gateway is also specified. The ip range defines which ip addresses will be available for docker to use. Setting the subnet mask to /30 will allow the macvlan to use the ip range `192.168.0.88 - 192.168.0.91`. Docker will assign an ip adress automatically or an ip adress can be set statically. Lastly, name the network as `macvlan` or to the desired name. See the example below.
+Add a [macvlan](https://docs.docker.com/network/macvlan/) network to docker by selecting an ip range not being used by DHCP or by other hosts. If a host bridge is used, replace eth0 with br0 or with the name of the bridge interface. The subnet 192.168.0.0/24 is used to match the current network that is being used. The default gateway is also specified. The ip range defines which ip addresses will be available for docker to use. Setting the subnet mask to /30 will allow the macvlan to use the ip range `192.168.0.88 - 192.168.0.91`. Docker will assign an ip address automatically or an ip address can be set statically. Lastly, name the network as `macvlan` or to the desired name. See the example below.
 ```
 docker network create -d macvlan -o parent=eth0 \
 --subnet 192.168.0.0/24 --gateway 192.168.0.1 \
