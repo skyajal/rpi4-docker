@@ -29,4 +29,36 @@ Install Docker from omv-extras
 
 Install kvm plugin
 
+add user to libvirt group. This will eliminate the need for sudo.
+
+Optional: install virt-manager on client machine to assist with managing kvm.
+
+To list current network settings. Below shows the default which is virbr0.
+
+pi@omv:~ $ sudo virsh net-list --all
+ Name      State      Autostart   Persistent
+----------------------------------------------
+ default   inactive   no          yes
+
+create host-bridge.xml containing the following:
+
+<network>
+  <name>host-bridge</name>
+  <forward mode="bridge" />
+  <bridge name="br0" />
+</network>
+
+Add it: pi@omv:~ $ virsh net-define host-bridge.xml
+
+pi@omv:~ $ virsh net-list --all
+ Name          State      Autostart   Persistent
+--------------------------------------------------
+ host-bridge   inactive   no          yes
+
+pi@omv:~ $ virsh net-start host-bridge
+Network host-bridge started
+
+pi@omv:~ $ virsh net-autostart host-bridge
+Network host-bridge marked as autostarted
+
 <<Work In Progress>>
