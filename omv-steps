@@ -61,4 +61,6 @@ Network host-bridge started
 pi@omv:~ $ virsh net-autostart host-bridge
 Network host-bridge marked as autostarted
 
+sudo iptables -A FORWARD -i br0 -o br0 -j ACCEPT
+
 <<Work In Progress>>
