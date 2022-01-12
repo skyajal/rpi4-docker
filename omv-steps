@@ -25,6 +25,8 @@ Create new bridge for omv to use:
 
 http://omv.local/#/network/interfaces/bridge/create
 
+Install Docker from omv-extras
+
 Install kvm plugin
 
 <<Work In Progress>>
