@@ -25,4 +25,6 @@ Create new bridge for omv to use:
 
 http://omv.local/#/network/interfaces/bridge/create
 
+Install kvm plugin
+
 <<Work In Progress>>
