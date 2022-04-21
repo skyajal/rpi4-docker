@@ -63,4 +63,6 @@ Network host-bridge marked as autostarted
 
 sudo iptables -A FORWARD -i br0 -o br0 -j ACCEPT
 
+sudo apt install -y iptables-persistent  then follow the prompts when installing the package.
+
 <<Work In Progress>>
