@@ -27,8 +27,8 @@ docker network create -d bridge --subnet 192.168.10.0/24 \
 ```
 
 #### **(Optional)** Disable the default bridge
-To disable the default bridge `docker0`, create or edit the file`/etc/docker/daemon.json` with the following setting. Do not do this if you want to keep
-the default docker bridge.
+To disable the default bridge `docker0`, create a new file`/etc/docker/daemon.json` with the following setting. Do not do this if you want to keep
+the default docker bridge. Please note this step is optional and it assumes you have created a user-defined bridge as noted above this section. If you have not created or do not want a user-defined bridge, skip this step. If daemon.json already exists, be sure to add commas as needed for the json config.
 ```json
 {
    "bridge": "none"
