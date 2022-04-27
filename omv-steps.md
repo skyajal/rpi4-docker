@@ -1,4 +1,6 @@
 ## Documentation updating in progress! Use at your own risk.
+### About this guide
+Hello and welcome. I am [shadowzero](https://forum.openmediavault.org/wsc/index.php?user/2842-shadowzero/) from the [OMV forums](https://forum.openmediavault.org/). I used to contribute to openmediavault some time ago. After OMV 3 was released, my priorities changed. Since then, I have contributed in testing the [omv-extras](https://wiki.omv-extras.org/) kvm plugin on the Raspberry Pi 4. I still think OMV is awesome. I just don't use it on a regular basis anymore. I prefer building my own "GUI/Web Interface" based on docker containers and kvm while retaining most activities to CLI based functions. Aside from my guides to do this without OMV, I still like to show this project some love by contributing when I can.
 ***
  How to setup KVM and Docker on OMV 6
 ***
@@ -13,36 +15,28 @@ sudo apt-get upgrade -y
 
 sudo rm -f /etc/systemd/network/99-default.link
 ```
-When all three commands above are complete, type `sudo reboot`
+When all three commands above are complete, type `sudo reboot` and log back into your device.
 
 ### Install OMV 6 via script:
-Run the following command to install OMV 6.
-wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash
-
-
-// For later
-Go into home > network > interfaces
-Select eth0 and then delete by clicking yes
-
-Create new bridge for omv to use:
-
-http://omv.local/#/network/interfaces/bridge/create
-
-Install Docker from omv-extras
-
-Install kvm plugin
-
-add user to libvirt group. This will eliminate the need for sudo.
-
-Optional: install virt-manager on client machine to assist with managing kvm.
-
+Run the following command to install OMV 6:
+`wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash`
+### Setup the bridge:
+After the OMV install is complete, navigate to: `home > network > interfaces`. Select `eth0` and then `delete` by clicking `yes`.
+Add a new bridge interface that uses eth0. Reboot after making the changes. See the steps below:
+- Install docker from omv-extras.
+- Install kvm plugin from omv-extras.
+  - Add your user to libvirt group. This will eliminate the need for sudo.
+  - Optional: install virt-manager on a client machine to manage kvm.
+***
+STOP! - Current documentation below is incomplete and still a work in progress. Basic notes have been recorded only.
+***
 To list current network settings. Below shows the default which is virbr0.
-
+```
 pi@omv:~ $ sudo virsh net-list --all
  Name      State      Autostart   Persistent
 ----------------------------------------------
  default   inactive   no          yes
-
+```
 create host-bridge.xml containing the following:
 
 <network>
