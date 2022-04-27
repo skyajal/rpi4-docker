@@ -4,7 +4,7 @@ Hello and welcome. I am [shadowzero](https://forum.openmediavault.org/wsc/index.
 ***
  How to setup KVM and Docker on OMV 6
 ***
-This guide/howto will walk you through a new installation of [openmediavault](https://www.openmediavault.org/) 6. Then we will add support for KVM and Docker to run together over a bridged network interface. Some knowledge of configuring networking on raspberry pi is recommended.
+This guide/howto will walk you through a new installation of [openmediavault](https://www.openmediavault.org/) 6. Then we will add support for kvm and docker to run together over a bridged network interface. Some knowledge of configuring networking on raspberry pi is recommended.
 
 ### Install OS
 Install the latest raspios lite 64 OS image from https://downloads.raspberrypi.org/raspios_lite_arm64/images/ to your SD card or USB drive flashed with the latest arm64 image. As of this guide, version: [2022-04-04-raspios-bullseye-arm64-lite.img.xz](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2022-04-07/2022-04-04-raspios-bullseye-arm64-lite.img.xz),[torrent](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2022-04-07/2022-04-04-raspios-bullseye-arm64-lite.img.xz.torrent) are used in the examples below. After you have flashed either an SD card or USB drive, follow the inital setup. Once you are able to login via console or ssh, run the following commands:
