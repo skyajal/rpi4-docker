@@ -1,22 +1,22 @@
-!!Work In Progress!!
+## Documentation updating in progress! Use at your own risk.
 ***
  How to setup KVM and Docker on OMV 6
 ***
+This guide/howto will walk you through a new installation of [openmediavault](https://www.openmediavault.org/) 6. Then we will add support for KVM and Docker to run together over a bridged network interface. Some knowledge of configuring networking on raspberry pi is recommended.
 
-Install latest raspios lite 64 OS from https://downloads.raspberrypi.org/raspios_lite_arm64/images/ and then use the following commands, executed one at at time:
-
+### Install OS
+Install the latest raspios lite 64 OS image from https://downloads.raspberrypi.org/raspios_lite_arm64/images/ to your SD card or USB drive flashed with the latest arm64 image. As of this guide, version: [2022-04-04-raspios-bullseye-arm64-lite.img.xz](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2022-04-07/2022-04-04-raspios-bullseye-arm64-lite.img.xz),[torrent](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2022-04-07/2022-04-04-raspios-bullseye-arm64-lite.img.xz.torrent) are used in the examples below. After you have flashed either an SD card or USB drive, follow the inital setup. Once you are able to login via console or ssh, run the following commands:
+```
 sudo apt-get update
 
 sudo apt-get upgrade -y
 
 sudo rm -f /etc/systemd/network/99-default.link
+```
+When all three commands above are complete, type `sudo reboot`
 
-When all three commands above are complete, type;
-
-sudo reboot
-
-Use OMV 6 script:
-
+### Install OMV 6 via script:
+Run the following command to install OMV 6.
 wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash
 
 
