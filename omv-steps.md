@@ -38,28 +38,28 @@ pi@omv:~ $ sudo virsh net-list --all
  default   inactive   no          yes
 ```
 create host-bridge.xml containing the following:
-
+```
 <network>
   <name>host-bridge</name>
   <forward mode="bridge" />
   <bridge name="br0" />
 </network>
-
-Add it: pi@omv:~ $ virsh net-define host-bridge.xml
-
-pi@omv:~ $ virsh net-list --all
+```
+Add it: `pi@omv:~ $ virsh net-define host-bridge.xml`
+```
+`pi@omv:~ $ virsh net-list --all`
  Name          State      Autostart   Persistent
 --------------------------------------------------
  host-bridge   inactive   no          yes
-
+```
+```
 pi@omv:~ $ virsh net-start host-bridge
 Network host-bridge started
-
+```
+```
 pi@omv:~ $ virsh net-autostart host-bridge
 Network host-bridge marked as autostarted
+```
+`sudo iptables -A FORWARD -i br0 -o br0 -j ACCEPT`
 
-sudo iptables -A FORWARD -i br0 -o br0 -j ACCEPT
-
-sudo apt install -y iptables-persistent  then follow the prompts when installing the package.
-
-<<Work In Progress>>
+`sudo apt install -y iptables-persistent` then follow the prompts when installing the package.
