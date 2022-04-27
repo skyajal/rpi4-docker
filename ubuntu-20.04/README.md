@@ -1,4 +1,4 @@
-**Please note the information below is outdated. I will revamp it when time permits.**
+**Please note the information below is outdated. See [Ubuntu releases](https://wiki.ubuntu.com/Releases)**: for details.
 
 # Raspberry Pi 4 - Docker Setup with Ubuntu 20.04 LTS
 This document describes the steps that were used to create a docker environment on a Raspberry Pi 4 using a SSD without a microsd card.
