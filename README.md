@@ -1,6 +1,6 @@
 # Raspberry Pi 4 - Docker Setup with Raspbian OS 64 bit
 
-This guide contains several options to configure docker on raspbian OS 64 bit. This guide is provided as-is. Use at your own risk.
+This guide contains several options to configure docker on raspbian OS 64 bit. This guide is provided as-is. Use at your own risk. This guide does not go into detail of setting up containers after the initial installation is complete. This is only for the installation of docker. Building containers via dockerfile or docker-compose is not covered here. There are plenty of guides online that discusses this topic.
 
 ## **Quick Setup**
 **_Tip_:** Below are some recommendations to do prior to installing docker.
