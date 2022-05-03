@@ -25,7 +25,7 @@ After the OMV install is complete, navigate to: `home > network > interfaces`. S
 Add a new bridge interface that uses eth0. Reboot after making the changes. See the steps below:
 - Install docker from omv-extras.
 - Install kvm plugin from omv-extras.
-  - Add your user to libvirt group. This will eliminate the need for sudo.
+  - Add your user to libvirt and kvm group. This will eliminate the need for sudo.
   - Optional: install virt-manager on a client machine to manage kvm.
 ***
 STOP! - Current documentation below is incomplete and still a work in progress. Basic notes have been recorded only.
