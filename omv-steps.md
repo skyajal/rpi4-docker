@@ -29,7 +29,7 @@ See the steps below:
   - Add your user to libvirt and kvm groups. This will eliminate the need for sudo.
   - Optional: install virt-manager on a client machine to manage kvm.
 
-### Setup KVM to use the bridge
+### Setup kvm to use the bridge
 To list current network settings, run the commad below. This example shows the default which is virbr0.
 ```
 pi@omv:~ $ virsh net-list --all
@@ -65,7 +65,7 @@ We will want the host-bridge to start automatically. Run the following command:
 pi@omv:~ $ virsh net-autostart host-bridge
 Network host-bridge marked as autostarted
 ```
-We need to set iptables to allow fowarding on the bridge network `br0`. This will allow KVM and docker to use the same bridge interface.
+We need to set iptables to allow fowarding on the bridge network `br0`. This will allow kvm and docker to use the same bridge interface.
 `sudo iptables -A FORWARD -i br0 -o br0 -j ACCEPT`
 Lastly, we need to make the changes persistent. Run the following command:
 `sudo apt install -y iptables-persistent` then follow the prompts when installing the package.
