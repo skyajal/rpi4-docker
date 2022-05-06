@@ -66,7 +66,8 @@ pi@omv:~ $ virsh net-autostart host-bridge
 Network host-bridge marked as autostarted
 ```
 We need to set iptables to allow fowarding on the bridge network `br0`. This will allow kvm and docker to use the same bridge interface.
-`sudo iptables -A FORWARD -i br0 -o br0 -j ACCEPT`
+Run the following command:`sudo iptables -A FORWARD -i br0 -o br0 -j ACCEPT`
+
 Lastly, we need to make the changes persistent. Run the following command:
 `sudo apt install -y iptables-persistent` then follow the prompts when installing the package.
 You should now be able to run KVM and docker together on OMV 6. Enjoy! :)
