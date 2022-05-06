@@ -70,4 +70,4 @@ Run the following command:`sudo iptables -A FORWARD -i br0 -o br0 -j ACCEPT`
 
 Lastly, we need to make the changes persistent. Run the following command:
 `sudo apt install -y iptables-persistent` then follow the prompts when installing the package.
-You should now be able to run KVM and docker together on OMV 6. Enjoy! :)
+You should now be able to run kvm and docker together on OMV 6. Enjoy! :)
