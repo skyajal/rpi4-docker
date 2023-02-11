@@ -4,6 +4,7 @@ This guide contains several options to configure docker on raspbian OS 64 bit. T
 
 ## **Quick Setup**
 **_Tip_:** Below are some recommendations to do prior to installing docker.
+- Make sure your user name has sudo access. If not, refer to the official documentation.
 - Run the commands `sudo apt update` and `sudo apt upgrade` to bring the OS up-to-date.
 - Check that the timezone is set to your region.  Use the command `date` to view the current settings. Run `sudo raspi-config` to set the timezone for your region.
 - Check that the locale is set to your region. Use the command `locale` to view the current settings. Run `sudo raspi-config` to set the locale for your region. Reboot for the changes to take affect.
