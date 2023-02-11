@@ -1,4 +1,4 @@
-# Raspberry Pi 4 - Docker Setup with Raspbian OS 64 bit
+# RaspberryPi 4 - Docker Setup with Raspbian OS 64 bit
 
 This guide contains several options to configure docker on raspbian OS 64 bit. This guide is provided as-is. Use at your own risk. This guide does not go into detail of setting up containers after the initial installation is complete. This is only for the installation of docker. Building containers via dockerfile or docker-compose is not covered here. There are plenty of guides online that discusses this topic.
 
@@ -12,7 +12,7 @@ This guide contains several options to configure docker on raspbian OS 64 bit. T
 dtoverlay=disable-wifi
 ```
 
-The easiest method to setup docker on raspbian OS 64 bit is to use the [convenience script](https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script). After the installation is complete, add the pi user to the docker group to run docker commands directly. Run the command `sudo usermod -aG docker (your_username)` then log out and log back in for the changes to take affect. If you do not plan to use a [user-defined bridge](https://docs.docker.com/network/bridge/) or a [macvlan](https://docs.docker.com/network/macvlan/), docker is now ready to use.
+The easiest method to setup docker on raspbian OS 64 bit is to use the [convenience script](https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script). After the installation is complete, add your user to the docker group to run docker commands directly. Run the command `sudo usermod -aG docker (your_username)` then log out and log back in for the changes to take affect. If you do not plan to use a [user-defined bridge](https://docs.docker.com/network/bridge/) or a [macvlan](https://docs.docker.com/network/macvlan/), docker is now ready to use.
 
 ## **User-defined bridge**
 Use the following to create a [user-defined bridge](https://docs.docker.com/network/bridge/). The default bridge `docker0` in docker does not allow containers to connect each other via container names used as dns hostnames. Therefore, it is recommended to create a user-defined bridge and attach the containers to that bridge. Change the bridge name, subnet and gateway ip to the desired setting. See the example below.
